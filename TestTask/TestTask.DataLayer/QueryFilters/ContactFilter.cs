@@ -23,18 +23,17 @@ public class ContactFilter : IQueryFilter<Contact>
 
         if (!string.IsNullOrEmpty(Name))
         {
-            expression = expression.And(entity => entity.Name.ContainsIgnoreCase(Name));
+            expression = expression.AndContainsIgnoreCase(entity => entity.Name, Name);
         }
         
         if (!string.IsNullOrEmpty(MobilePhone))
         {
-            expression = expression.And(entity => entity.MobilePhone.ContainsIgnoreCase(MobilePhone));
-
+            expression = expression.AndContainsIgnoreCase(entity => entity.MobilePhone, MobilePhone);
         }
         
         if (!string.IsNullOrEmpty(JobTitle))
         {
-            expression = expression.And(entity => entity.JobTitle.ContainsIgnoreCase(JobTitle));
+            expression = expression.AndContainsIgnoreCase(entity => entity.JobTitle, JobTitle);
         }
         
         if (BirthDateFrom.HasValue)

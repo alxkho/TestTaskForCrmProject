@@ -32,8 +32,8 @@ const Contacts = () => {
                 <Title level={3}>Контакты</Title>
             </div>
             <div className="contacts-filter">
-                <Input placeholder="Введите текст для поиска по таблице"/>
                 <Button type="primary" icon={<PlusOutlined />} onClick={openModal}>Добавить</Button>
+                <ContactFilters setFilters={setFilters}/>
             </div>
             <ContactsTable
                 data={contacts}
