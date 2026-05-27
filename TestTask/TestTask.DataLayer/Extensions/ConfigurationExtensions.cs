@@ -12,6 +12,7 @@ public static class ConfigurationExtensions
     public static IServiceCollection  AddRepositories(this IServiceCollection  services)
     {
         services
+            .AddScoped(typeof(IRepository<>), typeof(BaseRepository<>))
             .AddScoped<IContactRepository, ContactRepository>();
         
         return services;

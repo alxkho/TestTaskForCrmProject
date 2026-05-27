@@ -4,7 +4,9 @@ using TestTask.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder
-    .ConfigureDataLayer();
+    .ConfigureDataLayer()
+    .AddCors()
+    .AddMapster();
 
 builder.Services
     .AddOpenApi()
@@ -14,6 +16,8 @@ var app = builder.Build();
 
 app.MapOpenApi();
 app.MapScalarApiReference();
+
+app.UseCors("AllowAll");
 
 app.UseRouting();
 

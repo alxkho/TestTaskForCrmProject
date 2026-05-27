@@ -4,16 +4,34 @@ namespace TestTask.Extensions;
 
 public static class InfrastructureExtensions
 {
-    public static WebApplicationBuilder ConfigureDataLayer(this WebApplicationBuilder builder)
+    extension(WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-                               throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        public WebApplicationBuilder ConfigureDataLayer()
+        {
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                                   throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        builder.Services
-            .AddMyDbContext(connectionString)
-            .AddRepositories()
-            .AddUnitOfWork();
+            builder.Services
+                .AddMyDbContext(connectionString)
+                .AddRepositories()
+                .AddUnitOfWork();
         
-        return builder;
+            return builder;
+        }
+
+        public WebApplicationBuilder AddCors()
+        {
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+        
+            return builder;
+        }
     }
 }

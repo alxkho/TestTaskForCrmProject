@@ -31,10 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\TestTask.DataLayer\TestTask.DataLayer.csproj" />
     </ItemGroup>
 
