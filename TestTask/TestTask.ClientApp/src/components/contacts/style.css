@@ -1,0 +1,31 @@
+.contacts-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.contacts-header{
+    text-align: center;
+}
+
+.contacts-filter{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+}
+
+.contacts-table{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 50%;
+}
+
+.table-btn{
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}

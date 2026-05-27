@@ -1,0 +1,33 @@
+{
+  "token": {
+    "colorPrimary": "#6495ed",
+    "borderRadius": 6,
+    "fontSize": 14,
+    "fontFamily": "Inter, sans-serif",
+    "controlHeight": 40
+  },
+  "components": {
+    "Button": {
+      "colorPrimary": "#6495ed",
+      "colorPrimaryHover": "#82aaff",
+      "colorPrimaryActive": "#4d7cd6"
+    },
+    "Table": {
+      "headerBg": "#f4f7fc",
+      "headerColor": "#1f1f1f",
+      "rowHoverBg": "#fbfdff",
+      "borderColor": "#d0e1fd",
+      "padding": 16
+    },
+    "Form": {
+      "labelColor": "#434343",
+      "labelFontSize": 14,
+      "itemMarginBottom": 24
+    },
+    "Input": {
+      "controlHeight": 40,
+      "activeBorderColor": "#6495ed",
+      "hoverBorderColor": "#82aaff"
+    }
+  }
+}

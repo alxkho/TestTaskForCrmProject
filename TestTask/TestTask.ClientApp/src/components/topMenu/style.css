@@ -1,0 +1,8 @@
+.top-menu {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    background-color: cornflowerblue;
+    height: 70px;
+    padding: 10px 20px;
+}
