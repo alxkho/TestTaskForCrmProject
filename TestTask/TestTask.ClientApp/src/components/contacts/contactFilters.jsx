@@ -7,8 +7,12 @@ const ContactFilters = ({setFilters}) => {
     const onFinish = (values) => {
         setFilters({
             ...values,
-            birthDateFrom: values.birthDate[0] ? values.birthDate[0].format('YYYY-MM-DD') : null,
-            birthDateTo: values.birthDate[1] ? values.birthDate[1].format('YYYY-MM-DD') : null,
+            birthDateFrom: values?.birthDate && values?.birthDate[0]
+                ? values.birthDate[0].format('YYYY-MM-DD')
+                : null,
+            birthDateTo: values?.birthDate && values?.birthDate[1]
+                ? values.birthDate[1].format('YYYY-MM-DD')
+                : null,
         })
     }
 

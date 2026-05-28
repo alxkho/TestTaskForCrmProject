@@ -2,7 +2,8 @@ import {useEffect} from 'react';
 import {Button, DatePicker, Form, Input, Modal} from "antd";
 import {contactApi} from "../../api/contactApi/contactApi.js";
 import dayjs from "dayjs";
-import {notFutureDateValidator, notLongStringValidator} from "../../utils/validators.js";
+import {notFutureDateValidator, maxStringLengthValidator, phoneNumberValidator} from "../../utils/validators.js";
+import {normalizeMobilePhone} from "../../utils/mobilePhoneHelper.js";
 
 const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentContact, getContacts}) => {
     const [form] = Form.useForm();
@@ -10,6 +11,7 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
     useEffect(() => {
         form.setFieldsValue({
             ...currentContact,
+            mobilePhone: currentContact?.mobilePhone ? normalizeMobilePhone(currentContact.mobilePhone) : null,
             birthDate: currentContact?.birthDate ? dayjs(currentContact?.birthDate) : null})
     }, [currentContact]);
 
@@ -17,7 +19,12 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
         const contact = {
             ...values,
             id: currentContact?.id,
-            birthDate: values?.birthDate ? values.birthDate.format('YYYY-MM-DD') : null
+            mobilePhone: values?.mobilePhone
+                ? "+375" + values.mobilePhone.replace(/\D/g, "")
+                : null,
+            birthDate: values?.birthDate
+                ? values.birthDate.format('YYYY-MM-DD')
+                : null
         }
 
         const promise = currentContact
@@ -55,7 +62,7 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
                     label="Имя"
                     rules={[
                         { required: true },
-                        { validator: notLongStringValidator(50)}
+                        { validator: maxStringLengthValidator(50)}
                     ]}
                 >
                     <Input />
@@ -63,18 +70,23 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
                 <Form.Item
                     name="mobilePhone"
                     label="Мобильный телефон"
+                    normalize={normalizeMobilePhone}
                     rules={[
-                        { required: true }
+                        { required: true },
+                        { validator: phoneNumberValidator()}
                     ]}
                 >
-                    <Input />
+                    <Input
+                        prefix={"+375"}
+                        placeholder="(__) ___-__-__"
+                    />
                 </Form.Item>
                 <Form.Item
                     name="jobTitle"
                     label="Место работы"
                     rules={[
                         { required: true },
-                        { validator: notLongStringValidator(100)}
+                        { validator: maxStringLengthValidator(100)}
                     ]}
                 >
                     <Input />

@@ -2,6 +2,7 @@ import {Button, Popconfirm, Table} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {contactApi} from "../../api/contactApi/contactApi.js";
 import dayjs from "dayjs";
+import {normalizeMobilePhone} from "../../utils/mobilePhoneHelper.js";
 
 const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) => {
 
@@ -24,6 +25,7 @@ const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) =
             title: "Мобильный телефон",
             dataIndex: "mobilePhone",
             key: "mobilePhone",
+            render: (text) => "+375 " + normalizeMobilePhone(text),
         },{
             title: "Место работы",
             dataIndex: "jobTitle",
