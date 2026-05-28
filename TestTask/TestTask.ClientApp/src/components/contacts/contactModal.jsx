@@ -2,14 +2,15 @@ import {useEffect} from 'react';
 import {Button, DatePicker, Form, Input, Modal} from "antd";
 import {contactApi} from "../../api/contactApi/contactApi.js";
 import dayjs from "dayjs";
+import {notFutureDateValidator, notLongStringValidator} from "../../utils/validators.js";
 
 const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentContact, getContacts}) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
         form.setFieldsValue({
-                ...currentContact,
-                birthDate: currentContact?.birthDate ? dayjs(currentContact?.birthDate) : null})
+            ...currentContact,
+            birthDate: currentContact?.birthDate ? dayjs(currentContact?.birthDate) : null})
     }, [currentContact]);
 
     const onFinish = (values) => {
@@ -49,18 +50,42 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
                 scrollToFirstError
                 layout="vertical"
             >
-                <Form.Item name="name" label="Имя">
+                <Form.Item
+                    name="name"
+                    label="Имя"
+                    rules={[
+                        { required: true },
+                        { validator: notLongStringValidator(50)}
+                    ]}
+                >
                     <Input />
                 </Form.Item>
-                <Form.Item name="mobilePhone" label="Мобильный телефон">
+                <Form.Item
+                    name="mobilePhone"
+                    label="Мобильный телефон"
+                    rules={[
+                        { required: true }
+                    ]}
+                >
                     <Input />
                 </Form.Item>
-                <Form.Item name="jobTitle" label="Место работы">
+                <Form.Item
+                    name="jobTitle"
+                    label="Место работы"
+                    rules={[
+                        { required: true },
+                        { validator: notLongStringValidator(100)}
+                    ]}
+                >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     name="birthDate"
                     label="Дата рождения"
+                    rules={[
+                        { required: true },
+                        { validator: notFutureDateValidator()}
+                    ]}
                 >
                     <DatePicker format="DD.MM.YYYY"/>
                 </Form.Item>
