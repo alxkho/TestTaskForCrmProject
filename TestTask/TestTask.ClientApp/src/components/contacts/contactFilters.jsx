@@ -5,7 +5,11 @@ const ContactFilters = ({setFilters}) => {
     const [form] = Form.useForm()
 
     const onFinish = (values) => {
-        setFilters(values)
+        setFilters({
+            ...values,
+            birthDateFrom: values.birthDate[0] ? values.birthDate[0].format('YYYY-MM-DD') : null,
+            birthDateTo: values.birthDate[1] ? values.birthDate[1].format('YYYY-MM-DD') : null,
+        })
     }
 
     const resetFilters = () => {
@@ -31,7 +35,11 @@ const ContactFilters = ({setFilters}) => {
                                     <Input placeholder="Место работы" />
                                 </Form.Item>
                                 <Form.Item name="birthDate">
-                                    <DatePicker.RangePicker placeholder={["Дата рождения от", "До"]}/>
+                                    <DatePicker.RangePicker
+                                        placeholder={["Дата рождения от", "До"]}
+                                        format="DD.MM.YYYY"
+                                        allowEmpty
+                                    />
                                 </Form.Item>
                             </Row>
                     </div>

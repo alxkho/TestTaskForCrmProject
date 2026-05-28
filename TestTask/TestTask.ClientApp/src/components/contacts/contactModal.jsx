@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {Button, DatePicker, Form, Input, Modal} from "antd";
-import moment from "moment";
 import {contactApi} from "../../api/contactApi/contactApi.js";
+import dayjs from "dayjs";
 
 const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentContact, getContacts}) => {
     const [form] = Form.useForm();
@@ -9,14 +9,19 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
     useEffect(() => {
         form.setFieldsValue({
                 ...currentContact,
-                birthDate: currentContact?.birthDate ? moment(currentContact?.birthDate) : null})
+                birthDate: currentContact?.birthDate ? dayjs(currentContact?.birthDate) : null})
     }, [currentContact]);
 
     const onFinish = (values) => {
-        console.log(values);
+        const contact = {
+            ...values,
+            id: currentContact?.id,
+            birthDate: values?.birthDate ? values.birthDate.format('YYYY-MM-DD') : null
+        }
+
         const promise = currentContact
-            ? contactApi.update({id: currentContact.id, ...values})
-            : contactApi.create(values);
+            ? contactApi.update(contact)
+            : contactApi.create(contact);
 
         promise.then(() => {
             handleCancel()
@@ -42,6 +47,7 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
                 form={form}
                 onFinish={onFinish}
                 scrollToFirstError
+                layout="vertical"
             >
                 <Form.Item name="name" label="Имя">
                     <Input />
@@ -52,8 +58,11 @@ const ContactModal = ({isModalOpen, setIsModalOpen, currentContact, setCurrentCo
                 <Form.Item name="jobTitle" label="Место работы">
                     <Input />
                 </Form.Item>
-                <Form.Item name="birthDate" label="Дата рождения">
-                    <DatePicker format={"DD.MM.YYYY"} />
+                <Form.Item
+                    name="birthDate"
+                    label="Дата рождения"
+                >
+                    <DatePicker format="DD.MM.YYYY"/>
                 </Form.Item>
                 <Button htmlType="submit" type="primary">
                     Сохранить

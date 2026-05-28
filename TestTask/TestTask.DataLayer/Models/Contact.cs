@@ -12,5 +12,5 @@ public class Contact : IEntity
     
     public string JobTitle { get; set; }
     
-    public DateTimeOffset BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 }

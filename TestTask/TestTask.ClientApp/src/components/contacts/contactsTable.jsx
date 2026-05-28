@@ -1,7 +1,7 @@
 import {Button, Popconfirm, Table} from "antd";
-import moment from "moment";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {contactApi} from "../../api/contactApi/contactApi.js";
+import dayjs from "dayjs";
 
 const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) => {
 
@@ -32,7 +32,7 @@ const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) =
             title: "Дата рождения",
             dataIndex: "birthDate",
             key: "birthDate",
-            render: (text) => moment(text).format("DD.MM.YYYY"),
+            render: (text) => dayjs(text).format("DD.MM.YYYY"),
         },{
             title: "",
             key: "edit",

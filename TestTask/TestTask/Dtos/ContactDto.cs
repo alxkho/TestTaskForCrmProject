@@ -2,7 +2,7 @@
 
 public class ContactDto
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public string Name { get; set; }
     
@@ -10,5 +10,5 @@ public class ContactDto
     
     public string JobTitle { get; set; }
     
-    public DateTimeOffset BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 }

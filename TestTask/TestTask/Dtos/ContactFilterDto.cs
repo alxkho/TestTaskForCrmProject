@@ -8,7 +8,7 @@ public class ContactFilterDto
     
     public string? JobTitle { get; set; }
     
-    public DateTimeOffset? BirthDateFrom { get; set; }
+    public DateOnly? BirthDateFrom { get; set; }
     
-    public DateTimeOffset? BirthDateTo { get; set; }
+    public DateOnly? BirthDateTo { get; set; }
 }
