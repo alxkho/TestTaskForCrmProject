@@ -1,10 +1,10 @@
-import {Button, Popconfirm, Table} from "antd";
+import {Button, Pagination, Popconfirm, Table} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {contactApi} from "../../api/contactApi/contactApi.js";
 import dayjs from "dayjs";
 import {normalizeMobilePhone} from "../../utils/mobilePhoneHelper.js";
 
-const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) => {
+const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts, pageNumber, setPageNumber, pageSize}) => {
 
     const deleteHandler = (contactId) => {
         contactApi.delete({id: contactId})
@@ -14,6 +14,11 @@ const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) =
     const editButtonHandler = (contact = null) => {
         setIsModalOpen(true);
         setCurrentContact(contact);
+    }
+
+    const onPaginationChange = (pageNumber) => {
+        setPageNumber(pageNumber);
+        getContacts(pageNumber);
     }
 
     const columns = [
@@ -57,7 +62,16 @@ const ContactsTable = ({data, setCurrentContact, setIsModalOpen, getContacts}) =
     ]
     
     return (
-        <Table dataSource={data} columns={columns} bordered/>
+       <>
+           <Table dataSource={data?.items} columns={columns} bordered pagination={false}/>
+           <Pagination
+               align="center"
+               pageSize={pageSize}
+               total={data?.totalItemsCount}
+               onChange={onPaginationChange}
+               current={pageNumber}
+           />
+       </>
     );
 };
 

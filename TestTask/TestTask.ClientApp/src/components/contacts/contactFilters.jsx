@@ -18,7 +18,7 @@ const ContactFilters = ({setFilters}) => {
 
     const resetFilters = () => {
         form.resetFields()
-        setFilters(null)
+        setFilters({})
     }
 
     const items = [

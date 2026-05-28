@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestTask.DataLayer.Interfaces;
 using TestTask.DataLayer.QueryFilters;
 using TestTask.DataLayer.Repositories.Interfaces;
+using TestTask.Dtos;
 
 namespace TestTask.Controllers;
 
@@ -14,7 +15,7 @@ public abstract class BaseController<TEntity, TEntityDto, TQueryFilter, TFilterD
     where TEntity : class, IEntity
     where TEntityDto : class
     where TQueryFilter : class, IQueryFilter<TEntity>
-    where TFilterDto : class
+    where TFilterDto : class, new()
 {
     private readonly IRepository<TEntity> _repository = unitOfWork.GetRepository<TEntity>();
 
@@ -27,9 +28,18 @@ public abstract class BaseController<TEntity, TEntityDto, TQueryFilter, TFilterD
     [HttpGet("GetAll")]
     public async Task<OkObjectResult> GetAll([FromQuery] TFilterDto queryFilterDto)
     {
-        var queryFilter =  mapper.Map<TFilterDto, TQueryFilter>(queryFilterDto);
+        var queryFilter = mapper.Map<TFilterDto, TQueryFilter>(queryFilterDto);
         
         return Ok(await _repository.GetAllAsync(queryFilter.CompileFilter()));
+    }
+    
+    [HttpPost("GetPaged")]
+    public async Task<OkObjectResult> GetPaged([FromBody] PagedFilterDto<TFilterDto> queryFilterDto)
+    {
+        var queryFilter = mapper.Map<TFilterDto, TQueryFilter>(queryFilterDto.Filter);
+        
+        return Ok(await _repository
+            .GetPagedAsync(queryFilter.CompileFilter(), queryFilterDto.PageNumber, queryFilterDto.PageSize));
     }
     
     [HttpPost("Create")]

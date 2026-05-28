@@ -1,5 +1,5 @@
 import "./style.css"
-import {Button, Input} from "antd";
+import {Button} from "antd";
 import ContactsTable from "./contactsTable.jsx";
 import Title from "antd/es/typography/Title.js";
 import  {useEffect, useState} from "react";
@@ -12,18 +12,27 @@ const Contacts = () => {
     const [contacts, setContacts] = useState(null)
     const [currentContact, setCurrentContact] = useState(null)
     const [filters, setFilters] = useState(null)
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [pageNumber, setPageNumber] = useState(1)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const pageSize = 5
 
     useEffect(() => {
-        getContacts()
-    }, [filters]);
+        setPageNumber(1)
+        getContacts(1)
+    }, [filters])
 
-    const getContacts = () => {
-        contactApi.getAll(filters).then(response => setContacts(response));
+    const getContacts = (currentPageNumber = pageNumber) => {
+        contactApi.getPaged({
+            filter: filters,
+            pageSize,
+            pageNumber: currentPageNumber
+        })
+            .then(response => setContacts(response));
     }
 
     const openModal = () => {
-        setIsModalOpen(true);
+        setIsModalOpen(true)
     }
 
     return (
@@ -39,7 +48,11 @@ const Contacts = () => {
                 data={contacts}
                 setCurrentContact={setCurrentContact}
                 setIsModalOpen={setIsModalOpen}
-                getContacts={getContacts}/>
+                getContacts={getContacts}
+                pageNumber={pageNumber}
+                setPageNumber={setPageNumber}
+                pageSize={pageSize}
+            />
             <ContactModal
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}

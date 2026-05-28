@@ -3,7 +3,7 @@ using TestTask.DataLayer.Interfaces;
 
 namespace TestTask.DataLayer.QueryFilters;
 
-public interface IQueryFilter<T> where T : IEntity
+public interface IQueryFilter<TEntity> where TEntity : IEntity
 {
-    public Expression<Func<T, bool>> CompileFilter();
+    public Expression<Func<TEntity, bool>> CompileFilter();
 }

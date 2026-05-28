@@ -1,7 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using TestTask.DataLayer.Data;
+using TestTask.DataLayer.Extensions;
 using TestTask.DataLayer.Interfaces;
+using TestTask.DataLayer.QueryFilters;
 using TestTask.DataLayer.Repositories.Interfaces;
 
 namespace TestTask.DataLayer.Repositories;
@@ -18,6 +20,11 @@ public class BaseRepository<TEntity>(AppDbContext dbContext) : IRepository<TEnti
     public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter)
     {
         return await GetQuery().Where(filter).ToListAsync();
+    }
+    
+    public async Task<Paged<TEntity>> GetPagedAsync(Expression<Func<TEntity,bool>> filter, int pageNumber, int pageSize)
+    {
+        return await GetQuery().Where(filter).OrderBy(r => r.Id).ToPagedAsync(pageNumber, pageSize);
     }
 
     public async Task<TEntity?> GetByIdAsync(int id)

@@ -7,6 +7,9 @@ export const contactApi = {
     getAll(query) {
         return api.get("/contact/getAll", {params: query})
     },
+    getPaged(body) {
+        return api.post("/contact/getPaged", body)
+    },
     create(body) {
         return api.post("/contact/create", body)
     },
