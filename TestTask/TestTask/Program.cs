@@ -17,9 +17,9 @@ var app = builder.Build();
 app.MapOpenApi();
 app.MapScalarApiReference();
 
-app.UseCors("AllowAll");
-
 app.UseRouting();
+
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",
