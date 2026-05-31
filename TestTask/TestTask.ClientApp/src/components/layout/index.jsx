@@ -1,4 +1,4 @@
-import "./style.css"
+import "./style.css";
 import TopMenu from "../topMenu/index.jsx";
 import Contacts from "../contacts/index.jsx";
 

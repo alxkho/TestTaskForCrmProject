@@ -10,7 +10,13 @@ public static class PagedExtensions
         this IQueryable<TEntity> query, int pageNumber = 1, int pageSize = 10) 
         where TEntity : IEntity
     {
+        pageSize = Math.Max(1, pageSize);
+
         var totalItemsCount = await query.CountAsync();
+        
+        pageNumber = totalItemsCount > 0 
+            ? Math.Clamp(pageNumber, 1, (totalItemsCount + pageSize - 1) / pageSize) 
+            : 1;
 
         var items = await query
             .Skip((pageNumber - 1) * pageSize)
